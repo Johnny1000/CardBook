@@ -16,9 +16,9 @@
 <!ENTITY buttonAppendToListAccesskey "Д">
 <!ENTITY buttonRemoveFromListLabel "Удалить">
 <!ENTITY buttonRemoveFromListAccesskey "У">
-<!ENTITY buttonGuessFromListLabel "??Guess??">
-<!ENTITY buttonGuessFromListAccesskey "??G??">
+<!ENTITY buttonGuessFromListLabel "Предположить">
+<!ENTITY buttonGuessFromListAccesskey "П">
 <!ENTITY loadTemplateLabel "Выбрать шаблон">
 <!ENTITY loadTemplateAccesskey "B">
-<!ENTITY saveTemplateLabel "??Save template??">
-<!ENTITY saveTemplateAccesskey "??e??">
+<!ENTITY saveTemplateLabel "Сохранить шаблон">
+<!ENTITY saveTemplateAccesskey "С">
