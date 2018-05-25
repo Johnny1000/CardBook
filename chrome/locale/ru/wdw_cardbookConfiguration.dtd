@@ -21,12 +21,12 @@
 <!ENTITY autocompleteShowAddressbookAccesskey "а">
 <!ENTITY autocompleteWithColorLabel "Использовать цвет адресной книги">
 <!ENTITY autocompleteWithColorAccesskey "ц">
-<!ENTITY autocompleteRestrictSearchLabel "Выбрать поля поиска">
-<!ENTITY autocompleteRestrictSearchAccesskey "P">
+<!ENTITY autocompleteRestrictSearchLabel "Ограничить поиск заданными полями">
+<!ENTITY autocompleteRestrictSearchAccesskey "О">
 <!ENTITY chooseAutocompleteRestrictSearchFieldsButtonLabel "Редактировать">
-<!ENTITY chooseAutocompleteRestrictSearchFieldsButtonAccesskey "P">
+<!ENTITY chooseAutocompleteRestrictSearchFieldsButtonAccesskey "е">
 <!ENTITY resetAutocompleteRestrictSearchFieldsButtonLabel "Сбросить до значений по умолчанию">
-<!ENTITY resetAutocompleteRestrictSearchFieldsButtonAccesskey "C">
+<!ENTITY resetAutocompleteRestrictSearchFieldsButtonAccesskey "в">
 <!ENTITY useColorLabel "Использовать цвет адресной книги для:">
 <!ENTITY useColorBackgroundLabel "Фона">
 <!ENTITY useColorBackgroundAccesskey "Ф">
