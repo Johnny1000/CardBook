@@ -39,21 +39,21 @@ locale   cardbook vi    chrome/locale/vi/
 skin   cardbook             classic/1.0   chrome/skin/
 skin   cardbook-config      classic/1.0   chrome/skin/configuration/
 
-skin   cardbook-pref   classic/1.0   chrome/skin/osversion/unix/        os=Linux
+skin   cardbook-pref   classic/1.0   chrome/skin/osversion/unix/
 skin   cardbook-pref   classic/1.0   chrome/skin/osversion/windows/     os=WINNT
 skin   cardbook-pref   classic/1.0   chrome/skin/osversion/mac/         os=Darwin
-skin   cardbook-pref   classic/1.0   chrome/skin/osversion/unix60/      os=Linux      appversion>=60.0
+skin   cardbook-pref   classic/1.0   chrome/skin/osversion/unix60/                    appversion>=60.0
 skin   cardbook-pref   classic/1.0   chrome/skin/osversion/windows60/   os=WINNT      appversion>=60.0
 skin   cardbook-pref   classic/1.0   chrome/skin/osversion/mac60/       os=Darwin     appversion>=60.0
 
-skin   cardbook-toolbar   classic/1.0   chrome/skin/osversion/unix/        os=Linux
+skin   cardbook-toolbar   classic/1.0   chrome/skin/osversion/unix/
 skin   cardbook-toolbar   classic/1.0   chrome/skin/osversion/windows/     os=WINNT
 skin   cardbook-toolbar   classic/1.0   chrome/skin/osversion/mac/         os=Darwin
-skin   cardbook-toolbar   classic/1.0   chrome/skin/osversion/unix58/      os=Linux      appversion>=58.0a1
+skin   cardbook-toolbar   classic/1.0   chrome/skin/osversion/unix58/                    appversion>=58.0a1
 skin   cardbook-toolbar   classic/1.0   chrome/skin/osversion/windows58/   os=WINNT      appversion>=58.0a1
 skin   cardbook-toolbar   classic/1.0   chrome/skin/osversion/mac58/       os=Darwin     appversion>=58.0a1
 
-skin   cardbook-os          classic/1.0   chrome/skin/os/unix/               os=Linux
+skin   cardbook-os          classic/1.0   chrome/skin/os/unix/
 skin   cardbook-os          classic/1.0   chrome/skin/os/windows/            os=WINNT
 skin   cardbook-os          classic/1.0   chrome/skin/os/mac/                os=Darwin
 

@@ -223,17 +223,24 @@ if ("undefined" == typeof(wdw_findDuplicates)) {
 					var myNullCard = new cardbookCardParser();
 					cardbookRepository.saveCard(myNullCard, myArgs.cardsOut[0], "cardbook.cardAddedIndirect");
 					cardbookRepository.reWriteFiles([myArgs.cardsOut[0].dirPrefId]);
-					wdw_findDuplicates.finishAction(myId);
+					wdw_findDuplicates.finishMergeAction(myId);
 				} else if (myArgs.action == "CREATEANDREPLACE") {
 					var myNullCard = new cardbookCardParser();
 					cardbookRepository.saveCard(myNullCard, myArgs.cardsOut[0], "cardbook.cardAddedIndirect");
 					cardbookRepository.deleteCards(myArgs.cardsIn, "cardbook.cardRemovedDirect");
 					cardbookRepository.reWriteFiles([myArgs.cardsOut[0].dirPrefId]);
-					wdw_findDuplicates.finishAction(myId);
+					wdw_findDuplicates.finishMergeAction(myId);
 				}
 			};
 			aButton.addEventListener("click", fireButton, false);
 			aButton.addEventListener("input", fireButton, false);
+		},
+
+		finishMergeAction: function (aId) {
+			// wdw_findDuplicates.gResults.splice(aId, 1);
+			document.getElementById(aId + 'Row').hidden = true;
+			document.getElementById(aId + 'Row').setAttribute('delete', 'true');
+			wdw_findDuplicates.finishAction();
 		},
 
 		createForgetButton: function (aRow, aName, aLabel) {
@@ -245,19 +252,38 @@ if ("undefined" == typeof(wdw_findDuplicates)) {
 			function fireButton(event) {
 				var myId = this.id.replace(/Forget$/, "");
 				cardbookDuplicate.updateDuplicate(wdw_findDuplicates.gResults[myId]);
-				wdw_findDuplicates.finishAction(myId);
-				document.getElementById(myId + 'Row').hidden = true;
+				wdw_findDuplicates.finishForgetAction(myId);
 			};
 			aButton.addEventListener("click", fireButton, false);
 			aButton.addEventListener("input", fireButton, false);
 		},
 
-		finishAction: function (aId) {
-			wdw_findDuplicates.gResults.splice(aId, 1);
-			document.getElementById(aId + 'Row').hidden = true;
-			var strBundle = document.getElementById("cardbook-strings");
-			document.getElementById('numberContactsFoundDesc').value = strBundle.getFormattedString("numberLines", [wdw_findDuplicates.gResults.length]);
-			document.getElementById('numberContactsFoundDesc').hidden = false;
+		finishForgetAction: function (aId) {
+			document.getElementById(aId + 'Row').setAttribute('forget', 'true');
+			if (wdw_findDuplicates.gHideForgotten) {
+				document.getElementById(aId + 'Row').hidden = true;
+			}
+			document.getElementById(aId + 'Forget').hidden = true;
+			wdw_findDuplicates.finishAction();
+		},
+
+		finishAction: function () {
+			var i = 0;
+			var myShownCount = 0;
+			while (true) {
+				if (document.getElementById(i + 'Row')) {
+					var myRow = document.getElementById(i + 'Row');
+					if (!(myRow.getAttribute('delete') == 'true')) {
+						if (!(wdw_findDuplicates.gHideForgotten && myRow.getAttribute('forget') == 'true')) {
+							myShownCount++;
+						}
+					}
+					i++;
+				} else {
+					break;
+				}
+			}
+			wdw_findDuplicates.showLabels(myShownCount);
 		},
 
 		displayResults: function () {
@@ -267,6 +293,7 @@ if ("undefined" == typeof(wdw_findDuplicates)) {
 			var buttonMergeLabel = strBundle.getString("mergeCardsLabel");
 			var buttonForgetLabel = strBundle.getString("forgetCardsLabel");
 
+			var myShownCount = 0;
 			for (var i = 0; i < wdw_findDuplicates.gResults.length; i++) {
 				var shouldBeForgotten = false;
 				for (var j = 0; j < wdw_findDuplicates.gResults[i].length-1; j++) {
@@ -291,39 +318,21 @@ if ("undefined" == typeof(wdw_findDuplicates)) {
 				wdw_findDuplicates.createMergeButton(aRow, i, buttonMergeLabel);
 				if (!shouldBeForgotten) {
 					wdw_findDuplicates.createForgetButton(aRow, i, buttonForgetLabel);
+					myShownCount++;
 				}
 			}
-			wdw_findDuplicates.showLabels();
+			wdw_findDuplicates.showLabels(myShownCount);
 		},
 
-		showLabels: function () {
+		showLabels: function (aCount) {
 			var strBundle = document.getElementById("cardbook-strings");
-			var i = 0;
-			var noContacts = true;
-			while (true) {
-				if (document.getElementById(i + 'Row')) {
-					var myRow = document.getElementById(i + 'Row');
-					if (wdw_findDuplicates.gHideForgotten) {
-						if (myRow.getAttribute('forget') == 'false') {
-							noContacts = false;
-							break;
-						}
-					} else {
-						noContacts = false;
-						break;
-					}
-					i++;
-				} else {
-					break;
-				}
-			}
-			if (noContacts) {
+			if (aCount == 0) {
 				document.getElementById('noContactsFoundDesc').value = strBundle.getString("noContactsDuplicated");
 				document.getElementById('noContactsFoundDesc').hidden = false;
 				document.getElementById('numberContactsFoundDesc').hidden = true;
 			} else {
 				document.getElementById('noContactsFoundDesc').hidden = true;
-				document.getElementById('numberContactsFoundDesc').value = strBundle.getFormattedString("numberLines", [wdw_findDuplicates.gResults.length]);
+				document.getElementById('numberContactsFoundDesc').value = strBundle.getFormattedString("numberLines", [aCount]);
 				document.getElementById('numberContactsFoundDesc').hidden = false;
 			}
 			if (wdw_findDuplicates.gHideForgotten) {
@@ -338,20 +347,24 @@ if ("undefined" == typeof(wdw_findDuplicates)) {
 		hideOrShowForgotten: function () {
 			wdw_findDuplicates.gHideForgotten = !wdw_findDuplicates.gHideForgotten;
 			var i = 0;
+			var myShownCount = 0;
 			while (true) {
 				if (document.getElementById(i + 'Row')) {
 					var myRow = document.getElementById(i + 'Row');
-					if (wdw_findDuplicates.gHideForgotten && myRow.getAttribute('forget') == 'true') {
+					if (myRow.getAttribute('delete') == 'true') {
+						myRow.hidden = true;
+					} else if (wdw_findDuplicates.gHideForgotten && myRow.getAttribute('forget') == 'true') {
 						myRow.hidden = true;
 					} else {
 						myRow.hidden = false;
+						myShownCount++;
 					}
 					i++;
 				} else {
 					break;
 				}
 			}
-			wdw_findDuplicates.showLabels();
+			wdw_findDuplicates.showLabels(myShownCount);
 		},
 
 		preload: function () {
