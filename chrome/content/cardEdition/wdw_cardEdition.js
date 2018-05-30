@@ -206,7 +206,7 @@ if ("undefined" == typeof(wdw_cardEdition)) {
 			} else {
 				listOfUid = aSelectedList;
 			}
-			var searchValue = document.getElementById('searchAvailableCardsInput').value.replace(/[\s+\-+\.+\,+\;+]/g, "").toUpperCase();
+			var searchValue = cardbookRepository.makeSearchString(document.getElementById('searchAvailableCardsInput').value);
 			wdw_cardEdition.cardbookeditlists.availableCards = [];
 			var myCurrentDirPrefId = document.getElementById('dirPrefIdTextBox').value;
 			if (myCurrentDirPrefId != "") {

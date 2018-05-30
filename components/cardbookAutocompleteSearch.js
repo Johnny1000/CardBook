@@ -319,7 +319,7 @@ cardbookAutocompleteSearch.prototype = {
 
 		this.stopSearch();
 		
-		aSearchString = aSearchString.replace(/[\s+\-+\.+\,+\;+]/g, "").toUpperCase();
+		aSearchString = cardbookRepository.makeSearchString(aSearchString);
 
 		this.debugMode = cardbookPreferences.getBoolPref("extensions.cardbook.debugMode");
 		this.sortUsePopularity = cardbookPreferences.getBoolPref("extensions.cardbook.autocompleteSortByPopularity");
@@ -433,7 +433,7 @@ cardbookAutocompleteSearch.prototype = {
 						var myCategory = cardbookRepository.cardbookAccountsCategories[myDirPrefId][j];
 						if (((!(this.catInclRestrictions[myDirPrefId])) && (myCategory != cardbookRepository.cardbookUncategorizedCards)) ||
 								((this.catInclRestrictions[myDirPrefId]) && (this.catInclRestrictions[myDirPrefId][myCategory]))) {
-							if (myCategory.replace(/[\s+\-+\.+\,+\;+]/g, "").toUpperCase().indexOf(aSearchString) >= 0) {
+							if (cardbookRepository.makeSearchString(myCategory).indexOf(aSearchString) >= 0) {
 								if (this.catExclRestrictions[myDirPrefId]) {
 									var add = true;
 									for (var l in this.catExclRestrictions[myDirPrefId]) {
@@ -487,7 +487,7 @@ cardbookAutocompleteSearch.prototype = {
 								var myPrimaryEmail = myABCard.getProperty("PrimaryEmail","");
 								if (myPrimaryEmail != "") {
 									var lSearchString = myABCard.getProperty("FirstName","") + myABCard.getProperty("LastName","") + myDisplayName + myABCard.getProperty("NickName","") + myPrimaryEmail;
-									lSearchString = lSearchString.replace(/[\s+\-+\.+\,+\;+]/g, "").toUpperCase();
+									lSearchString = cardbookRepository.makeSearchString(lSearchString);
 									if (lSearchString.indexOf(aSearchString) >= 0) {
 										if (myDisplayName == "") {
 											var delim = myPrimaryEmail.indexOf("@",0);
@@ -504,7 +504,7 @@ cardbookAutocompleteSearch.prototype = {
 								var mySecondEmail = myABCard.getProperty("SecondEmail","");
 								if (mySecondEmail != "") {
 									var lSearchString = myABCard.getProperty("FirstName","") + myABCard.getProperty("LastName","") + myDisplayName + myABCard.getProperty("NickName","") + mySecondEmail;
-									lSearchString = lSearchString.replace(/[\s+\-+\.+\,+\;+]/g, "").toUpperCase();
+									lSearchString = cardbookRepository.makeSearchString(lSearchString);
 									if (lSearchString.indexOf(aSearchString) >= 0) {
 										if (myDisplayName == "") {
 											var delim = mySecondEmail.indexOf("@",0);
@@ -521,7 +521,7 @@ cardbookAutocompleteSearch.prototype = {
 							} else {
 								var myABList = contactManager.getDirectory(myABCard.mailListURI);
 								var lSearchString = myDisplayName + myABList.listNickName + myABList.description;
-								lSearchString = lSearchString.replace(/[\s+\-+\.+\,+\;+]/g, "").toUpperCase();
+								lSearchString = cardbookRepository.makeSearchString(lSearchString);
 								if (lSearchString.indexOf(aSearchString) >= 0) {
 									var myPopularity = myABCard.getProperty("PopularityIndex", "0");
 									this.addResult(result,  MailServices.headerParser.makeMimeAddress(myDisplayName, myDisplayName), myComment, myPopularity, "TH_LIST", myStyle, myDisplayName.toLowerCase(), contact.dirPrefId);

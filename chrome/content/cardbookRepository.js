@@ -501,7 +501,11 @@ var cardbookRepository = {
 		}
 		return a;
 	},
-	
+
+	makeSearchString: function (aString) {
+		return aString.replace(/[\s+\-+\.+\,+\;+]/g, "").normalize('NFD').replace(/[\u0300-\u036f]/g, "").toUpperCase();
+	},
+
 	getLongSearchString: function(aCard) {
 		var lResult = "";
 		var sep = "|";
@@ -533,8 +537,8 @@ var cardbookRepository = {
 		for (let i = 0; i < aCard.impp.length; i++) {
 			lResult = lResult + aCard.impp[i][0].join() + sep;
 		}
-		lResult = lResult.replace(/[\s+\-+\.+\,+\;+]/g, "").slice(0, -1).toUpperCase();
-		return lResult;
+		lResult = lResult.slice(0, -1);
+		return cardbookRepository.makeSearchString(lResult);
 	},
 
 	getShortSearchString: function(aCard) {
@@ -543,8 +547,8 @@ var cardbookRepository = {
 		for (let i = 0; i < cardbookRepository.autocompleteRestrictSearchFields.length; i++) {
 			lResult = lResult + cardbookUtils.getCardValueByField(aCard, cardbookRepository.autocompleteRestrictSearchFields[i]).join() + sep;
 		}
-		lResult = lResult.replace(/[\s+\-+\.+\,+\;+]/g, "").slice(0, -1).toUpperCase();
-		return lResult;
+		lResult = lResult.slice(0, -1);
+		return cardbookRepository.makeSearchString(lResult);
 	},
 
 	setEmptyContainer: function(aAccountId) {

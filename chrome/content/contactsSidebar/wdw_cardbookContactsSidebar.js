@@ -146,7 +146,7 @@ if ("undefined" == typeof(wdw_cardbookContactsSidebar)) {
 			wdw_cardbookContactsSidebar.searchResults = [];
 			var searchAB = document.getElementById('CardBookABMenulist').value;
 			var searchCategory = document.getElementById('categoriesMenulist').value;
-			var searchInput = document.getElementById("peopleSearchInput").value.replace(/[\s+\-+\.+\,+\;+]/g, "").toUpperCase();
+			var searchInput = cardbookRepository.makeSearchString(document.getElementById('peopleSearchInput').value);
 			var useOnlyEmail = cardbookPreferences.getBoolPref("extensions.cardbook.useOnlyEmail");
 			for (var i = 0; i < cardbookRepository.cardbookAccounts.length; i++) {
 				if (cardbookRepository.cardbookAccounts[i][1] && cardbookRepository.cardbookAccounts[i][5]) {
@@ -259,7 +259,7 @@ if ("undefined" == typeof(wdw_cardbookContactsSidebar)) {
 										}
 									}
 								}
-								if (myCategory.replace(/[\s+\-+\.+\,+\;+]/g, "").toUpperCase().includes(searchInput) || searchInput == "") {
+								if (cardbookRepository.makeSearchString(myCategory).includes(searchInput) || searchInput == "") {
 									var myEmails = [] ;
 									var myFormattedEmails = [];
 									for (var k = 0; k < cardbookRepository.cardbookDisplayCards[searchCategory].length; k++) {
@@ -433,7 +433,7 @@ if ("undefined" == typeof(wdw_cardbookContactsSidebar)) {
 							if (!myABCard.isMailList) {
 								if (myEmails != "") {
 									var lSearchString = myABCard.getProperty("FirstName","") + myABCard.getProperty("LastName","") + myDisplayName + myABCard.getProperty("NickName","") + myEmails;
-									lSearchString = lSearchString.replace(/[\s+\-+\.+\,+\;+]/g, "").toUpperCase();
+									lSearchString = cardbookRepository.makeSearchString(lSearchString);
 									if (lSearchString.includes(searchInput) || searchInput == "") {
 										if (myDisplayName == "") {
 											var delim = myEmails.indexOf("@",0);
@@ -449,7 +449,7 @@ if ("undefined" == typeof(wdw_cardbookContactsSidebar)) {
 							} else {
 								var myABList = contactManager.getDirectory(myABCard.mailListURI);
 								var lSearchString = myDisplayName + myABList.listNickName + myABList.description;
-								lSearchString = lSearchString.replace(/[\s+\-+\.+\,+\;+]/g, "").toUpperCase();
+								lSearchString = cardbookRepository.makeSearchString(lSearchString);
 								if (lSearchString.includes(searchInput) || searchInput == "") {
 										wdw_cardbookContactsSidebar.searchResults.push([myDisplayName, contact.dirName, "", true, "LISTCORE", myABCard, MailServices.headerParser.makeMimeAddress(myDisplayName, myDisplayName), contact.dirPrefId]);
 								}
