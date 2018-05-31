@@ -7,8 +7,13 @@ if ("undefined" == typeof(cardbookComplexSearch)) {
 			var myField = [];
 			var result;
 		
-			function buildRegExp(aCard, aCase, aField, aTerm, aValue) {
+			function buildRegExp(aCard, aCase, aField, aTerm, aValue, aDiacritic) {
 				myField = cardbookUtils.getCardValueByField(aCard, aField);
+				if (aDiacritic && myField.length != 0) {
+					for (var i = 0; i < myField.length; i++) {
+						myField[i] = cardbookRepository.normalizeString(myField[i]);
+					}
+				}
 				if (aTerm == "Contains") {
 					myRegexp = new RegExp("(.*)" + aValue + "(.*)", aCase);
 					inverse = false;
@@ -37,8 +42,20 @@ if ("undefined" == typeof(cardbookComplexSearch)) {
 			};
 
 			for (var i = 0; i < cardbookRepository.cardbookComplexSearch[aComplexSearchDirPrefId].rules.length; i++) {
-				buildRegExp(aCard, cardbookRepository.cardbookComplexSearch[aComplexSearchDirPrefId].rules[i][0], cardbookRepository.cardbookComplexSearch[aComplexSearchDirPrefId].rules[i][1],
-									cardbookRepository.cardbookComplexSearch[aComplexSearchDirPrefId].rules[i][2], cardbookRepository.cardbookComplexSearch[aComplexSearchDirPrefId].rules[i][3]);
+				var myCaseOperator = cardbookRepository.cardbookComplexSearch[aComplexSearchDirPrefId].rules[i][0];
+				if (myCaseOperator.startsWith("d")) {
+					var myDiacritic = true;
+					var myCaseOperator = cardbookRepository.cardbookComplexSearch[aComplexSearchDirPrefId].rules[i][0].substr(1);
+					var myValue = cardbookRepository.normalizeString(cardbookRepository.cardbookComplexSearch[aComplexSearchDirPrefId].rules[i][3]);
+				} else {
+					var myDiacritic = false;
+					var myCaseOperator = cardbookRepository.cardbookComplexSearch[aComplexSearchDirPrefId].rules[i][0];
+					var myValue = cardbookRepository.cardbookComplexSearch[aComplexSearchDirPrefId].rules[i][3];
+				}
+			
+				buildRegExp(aCard, myCaseOperator, cardbookRepository.cardbookComplexSearch[aComplexSearchDirPrefId].rules[i][1],
+									cardbookRepository.cardbookComplexSearch[aComplexSearchDirPrefId].rules[i][2], myValue,
+									myDiacritic);
 				function searchArray(element) {
 					return element.search(myRegexp) != -1;
 				};

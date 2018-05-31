@@ -569,6 +569,7 @@ if ("undefined" == typeof(cardbookElementTools)) {
 			var aMenulist = document.createElement('menulist');
 			aParent.appendChild(aMenulist);
 			aMenulist.setAttribute('id', aType + '_' + aIndex + '_menulistCase');
+			aMenulist.setAttribute('sizetopopup', 'none');
 			for (var prop in aParameters) {
 				aMenulist.setAttribute(prop, aParameters[prop]);
 			}
@@ -578,7 +579,8 @@ if ("undefined" == typeof(cardbookElementTools)) {
 			aMenupopup.setAttribute('id', aType + '_' + aIndex + '_menupopupCase');
 			cardbookElementTools.deleteRows(aMenupopup.id);
 			var found = false;
-			var caseOperators = [['ig', 'ignoreCaseLabel'], ['g', 'matchCaseLabel']]
+			var caseOperators = [['dig', 'ignoreCaseIgnoreDiacriticLabel'], ['ig', 'ignoreCaseMatchDiacriticLabel'],
+									['dg', 'matchCaseIgnoreDiacriticLabel'], ['g', 'matchCaseMatchDiacriticLabel']]
 			for (var i = 0; i < caseOperators.length; i++) {
 				var menuItem = document.createElement("menuitem");
 				menuItem.setAttribute('id', aType + '_' + aIndex + '_menuitemCase_' + i);
@@ -599,6 +601,7 @@ if ("undefined" == typeof(cardbookElementTools)) {
 			var aMenulist = document.createElement('menulist');
 			aParent.appendChild(aMenulist);
 			aMenulist.setAttribute('id', aType + '_' + aIndex + '_menulistObj');
+			aMenulist.setAttribute('sizetopopup', 'none');
 			for (var prop in aParameters) {
 				aMenulist.setAttribute(prop, aParameters[prop]);
 			}

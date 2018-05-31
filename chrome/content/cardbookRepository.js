@@ -502,8 +502,12 @@ var cardbookRepository = {
 		return a;
 	},
 
+	normalizeString: function (aString) {
+		return aString.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+	},
+
 	makeSearchString: function (aString) {
-		return aString.replace(/[\s+\-+\.+\,+\;+]/g, "").normalize('NFD').replace(/[\u0300-\u036f]/g, "").toUpperCase();
+		return cardbookRepository.normalizeString(aString.replace(/[\s+\-+\.+\,+\;+]/g, "").toUpperCase());
 	},
 
 	getLongSearchString: function(aCard) {
